@@ -479,8 +479,8 @@ void Export2DB::createTopology()
         everything_fine = false;
 	}
 
-    std::string create_topology("SELECT assign_vertex_id('"+ tables_prefix + "ways', 0.00001, 'the_geom', 'gid');");
-	result = PQexec(mycon, create_topology.c_str());
+    std::string assign_vertex_id("SELECT assign_vertex_id('"+ tables_prefix + "ways', 0.00001, 'the_geom', 'gid');");
+	result = PQexec(mycon, assign_vertex_id.c_str());
 	if (PQresultStatus(result) != PGRES_TUPLES_OK)
     {
         std::cerr << "Create Topology failed: " << PQerrorMessage(mycon) << std::endl;
