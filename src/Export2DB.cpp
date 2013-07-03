@@ -158,14 +158,22 @@ void Export2DB::createTables()
 
 void Export2DB::dropTables()
 {
-    std::string drop_tables( "DROP TABLE " + tables_prefix + "ways;"
-                            + " DROP TABLE " + tables_prefix + "nodes;"
-                            + " DROP TABLE " + tables_prefix + "types;"
-                            + " DROP TABLE " + tables_prefix + "classes;"
-                            + " DROP TABLE " + tables_prefix + "way_tag;"
-                            + " DROP TABLE " + tables_prefix + "relations;"
-                            + " DROP TABLE " + tables_prefix + "relation_ways;");
-	PGresult *result = PQexec(mycon, drop_tables.c_str());
+    std::string drop_tables("DROP TABLE " + tables_prefix + "ways;");
+    PGresult *result = PQexec(mycon, drop_tables.c_str());
+    drop_tables = "DROP TABLE " + tables_prefix + "nodes;";
+    result = PQexec(mycon, drop_tables.c_str());
+    drop_tables = "DROP TABLE " + tables_prefix + "types;";
+    result = PQexec(mycon, drop_tables.c_str());
+    drop_tables = "DROP TABLE " + tables_prefix + "types;";
+    result = PQexec(mycon, drop_tables.c_str());
+    drop_tables = " DROP TABLE " + tables_prefix + "classes;";
+    result = PQexec(mycon, drop_tables.c_str());
+    drop_tables = " DROP TABLE " + tables_prefix + "way_tag;";
+    result = PQexec(mycon, drop_tables.c_str());
+    drop_tables = " DROP TABLE " + tables_prefix + "relations;";
+    result = PQexec(mycon, drop_tables.c_str());
+    drop_tables = " DROP TABLE " + tables_prefix + "relation_ways;";
+    result = PQexec(mycon, drop_tables.c_str());
 }
 
 void Export2DB::exportNodes(std::map<long long, Node*>& nodes)
@@ -471,7 +479,7 @@ void Export2DB::createTopology()
         everything_fine = false;
 	}
 
-    std::string create_topology("SELECT pgr_createTopology('"+ tables_prefix + "ways', 0.00001, 'the_geom', 'gid');");
+    std::string create_topology("SELECT assign_vertex_id('"+ tables_prefix + "ways', 0.00001, 'the_geom', 'gid');");
 	result = PQexec(mycon, create_topology.c_str());
 	if (PQresultStatus(result) != PGRES_TUPLES_OK)
     {
